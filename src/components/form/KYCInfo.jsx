@@ -106,11 +106,10 @@ const KYCInfo = ({ onSubmit }) => {
                     pancard_data: panCardBase64 ? panCardBase64.split(",")[1] : null,
                 };
 
-                // console.log(userRequest);
-
                 const data = await AddKYCInfo(userRequest);
 
-                if (data.status === true) {
+                if (data.status === true && data.message!='Already exists') {
+                    
                     setUserInfo((prevUserInfo) => ({
                         ...prevUserInfo,
                         kyc_info_fill: true,

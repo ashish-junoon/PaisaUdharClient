@@ -45,31 +45,76 @@ function AvailLoan({ product, handleApply }) {
             consentOTP: Yup.string().required('Enter OTP').matches(/^[0-9]{4}$/, 'Invalid OTP'),
         }),
         onSubmit: async (values) => {
-            const userRequest = {
-                lead_id: userInfo.lead_id,
-                product_code: product.product_code,
-                consent_otp: values.consentOTP.toString(),
-            };
-
-            try {
-                const data = await validateConsentOTP(userRequest);
-                if (data.status) {
-                    toast.success(data.message);
-                    setIsConsentVerified(true);
-                    handleApply();
-                    updateData(product = selectProduct);
-                    setLoading(true);
-                    setInterval(() => {
-                        window.location.reload();
-                        setLoading(false);
-                    }, 1000);
-                } else {
-                    toast.error(data.message);
-                }
-            } catch (error) {
-                toast.error('Something went wrong. Please try again.');
-                console.error('Error submitting address info:', error);
+            if (!navigator.geolocation) {
+                toast.error("Geolocation is not supported by your browser.");
+                return;
             }
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    // STEP 1: Update lat/lon
+                    // setLocation((prev) => ({ ...prev, latitude: lat, longitude: lon }));
+
+                    // STEP 2: Reverse Geocoding API
+                    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+
+                    try {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        // console.log(data);
+                        const address = data.address || {};
+
+                        //   setLocation({
+                        //     latitude: lat,
+                        //     longitude: lon,
+                        //     city: address.city || address.town || address.village || "",
+                        //     state: address.state || "",
+                        //     pincode: address.postcode || "",
+                        //     fullAddress: data.display_name || "",
+                        //   });
+                        const userRequest = {
+                            lead_id: userInfo.lead_id,
+                            product_code: product.product_code,
+                            consent_otp: values.consentOTP.toString(),
+                            latitude: data.lat,
+                            longitude: data.lon,
+                            geo_address: Object.values(data.address).join(", ") || "",
+                            geo_state: data.address.state || data.address.city || "",
+                            geo_city: data.address.city || "",
+                            geo_pin_code: data.address.postcode || "",
+                        };
+
+                        try {
+                            const data = await validateConsentOTP(userRequest);
+                            if (data.status) {
+                                toast.success(data.message);
+                                setIsConsentVerified(true);
+                                handleApply();
+                                updateData(product = selectProduct);
+                                setLoading(true);
+                                setInterval(() => {
+                                    window.location.reload();
+                                    setLoading(false);
+                                }, 1000);
+                            } else {
+                                toast.error(data.message);
+                            }
+                        } catch (error) {
+                            toast.error('Something went wrong. Please try again.');
+                            console.error('Error submitting address info:', error);
+                        }
+                    } catch (error) {
+                        console.error("Error fetching location details:", error);
+                    }
+                },
+                (error) => {
+                    console.error("Location Error:", error);
+                    alert("Please enable location permission.");
+                }
+            );
+
         },
     });
 
