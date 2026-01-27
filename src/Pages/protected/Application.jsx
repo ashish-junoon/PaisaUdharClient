@@ -68,7 +68,7 @@ function Application() {
         // Find the first step that isn't completed
         for (const { field, stepNum } of steps) {
             const isCompleted = userData?.[field] === true;
-            console.log(`Checking ${field}: ${userData?.[field]}, isCompleted: ${isCompleted}`);
+            // console.log(`Checking ${field}: ${userData?.[field]}, isCompleted: ${isCompleted}`);
 
             if (!isCompleted) {
                 // console.log(`Setting step to ${stepNum} because ${field} is not completed`);

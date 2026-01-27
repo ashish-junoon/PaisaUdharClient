@@ -12,6 +12,7 @@ const DateInput = ({
     required,
     disabled,
     max,
+    min
 }) => {
     const [selectedDate, setSelectedDate] = useState(value || "");
     const inputRef = useRef(null);
@@ -70,6 +71,7 @@ const DateInput = ({
                     onChange={handleChange}
                     onBlur={onBlur}
                     disabled={disabled}
+                    min={min}
                     {...(maxDate ? { max: maxDate } : {})}
                     style={{
                         colorScheme: "dark",

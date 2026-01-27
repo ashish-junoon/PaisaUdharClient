@@ -222,6 +222,7 @@ const EmploymentInfo = ({ onSubmit }) => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.salaryDate}
+                            min={new Date().toISOString().split("T")[0]}
                         />
                         {formik.touched.salaryDate && formik.errors.salaryDate && (
                             <ErrorMsg error={formik.errors.salaryDate} />

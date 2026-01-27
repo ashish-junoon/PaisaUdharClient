@@ -239,9 +239,9 @@ export const getBankName = async (req) => {
     }
 };
 
-export const getEasebuzzBankName = async (req) => {
+export const getEasebuzzBankName = async () => {
     try {
-        const response = await api.get("/EasebuzzPayProvider/BankcodeList", req);
+        const response = await api.get("/EasebuzzIntegration/BankcodeList");
         return response.data;
     } catch (error) {
         console.error("Get Bank Name error:", error.response?.data || error.message);
@@ -345,6 +345,54 @@ export const verifyAadhaarOTP = async (req) => {
         throw error;
     }
 }
+
+
+
+//get bankcode
+export const getbankCodeListByCode = async (req) => {
+    try {
+        const response = await api.get(`/EasebuzzIntegration/BankcodeListByCode?BankCode=${req}`);
+        return response.data;
+    } catch (error) {
+        console.error("Register eMandate:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+//Register eMandate Easebuzz
+export const registerEMandateEaseBuze = async (req) => {
+    try {
+        const response = await api.post("/EasebuzzIntegration/RegisterEMandate", req);
+        return response.data;
+    } catch (error) {
+        console.error("Register eMandate:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+//Register eMandate Easebuzz
+export const GetMandateDetailsById = async (req) => {
+    try {
+        const response = await api.post("/EasebuzzIntegration/GetMandateDetailsById", req);
+        return response.data;
+    } catch (error) {
+        console.error("Register eMandate:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+//Register eMandate Easebuzz
+export const GetPaymentDetaisByID = async (req) => {
+    try {
+        const response = await api.post("/EasebuzzIntegration/GetPaymentDetaisByID ", req);
+        return response.data;
+    } catch (error) {
+        console.error("Register eMandate:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+
 
 //Register eMandate
 export const registerEMandate = async (req) => {
@@ -455,6 +503,18 @@ export const getUserDocuments = async (req) => {
 //------------------------------------------    
 // PAYMENT INTEGRATION
 //------------------------------------------
+
+//Create Payment request EaseBuzz
+export const CreatePaymentLinkEaseBuzz = async (req) => {
+    try {
+        const response = await api.post("/EasebuzzIntegration/PaymentGateway", req);
+        return response.data;
+    } catch (error) {
+        console.error("Payment Gateway Error:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
 
 //Create Payment request
 export const CreatePaymentLink = async (req) => {

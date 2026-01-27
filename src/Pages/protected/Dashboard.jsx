@@ -15,6 +15,7 @@ import BtnLoader from '../../components/utils/BtnLoader'
 import { useGetDocument } from '../../components/context/GetDocument'
 import PaymentCard from '../../components/utils/payment-card'
 import LoanClosureCard from '../../components/utils/loan-closure-card'
+import { useEmiContext } from '../../components/context/EmiContext'
 
 
 function Dashboard() {
@@ -27,6 +28,7 @@ function Dashboard() {
     const navigate = useNavigate();
 
     const { userInfo, setUserInfo } = useUserInfoContext();
+    const { emiData } = useEmiContext();
     const { loggedUser } = useAuth();
     const { documents } = useGetDocument();
     const emiToPay = userInfo?.emiToPay?.[0];
@@ -609,7 +611,7 @@ function Dashboard() {
             {/* EMI Payment Card */}
             {
                 userInfo?.emiToPay?.length == !null && (
-                    <PaymentCard emiData={emiToPay} />
+                    <PaymentCard emiData={emiToPay} emisheduleData={emiData} />
                 )
             }
 

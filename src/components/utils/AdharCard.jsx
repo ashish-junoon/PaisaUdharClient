@@ -12,7 +12,8 @@ const AdharCard = ({
         <div className="w-[300px] sm:w-[350px] bg-white border border-gray-300 rounded-md shadow-sm px-4 py-1 text-xs font-sans">
             {/* Header */}
             <div className="flex justify-between items-center">
-                <img src="https://www.presentations.gov.in/wp-content/uploads/2020/01/NE_Preview1.png" alt="India Emblem" className="h-10 xl:h-12" />
+                {/* <img src="https://www.presentations.gov.in/wp-content/uploads/2020/01/NE_Preview1.png" alt="India Emblem" className="h-10 xl:h-12" /> */}
+                <img src={Images.adhar1} alt="India Emblem" className="h-10 xl:h-12" />
                 <div className="text-center flex-1">
                     {/* <div className="text-[10px] text-black font-semibold">
                         <span className="text-[#ff9933]">■■■</span>{" "}
@@ -20,7 +21,8 @@ const AdharCard = ({
                         <span className="text-[#138808]">■■■</span>
                     </div> */}
                 </div>
-                <img src="https://www.presentations.gov.in/wp-content/uploads/2020/06/Aadhaar_Preview.png" alt="Aadhaar Logo" className="h-12" />
+                <img src={Images.adhar2} alt="Aadhaar Logo" className="h-12" />
+                {/* <img src="https://www.presentations.gov.in/wp-content/uploads/2020/06/Aadhaar_Preview.png" alt="Aadhaar Logo" className="h-12" /> */}
             </div>
 
             {/* Profile + QR */}

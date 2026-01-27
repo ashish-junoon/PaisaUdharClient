@@ -23,7 +23,7 @@ const BankInfo = ({ onSubmit }) => {
     const { loggedUser } = useAuth();
     const { userInfo, setUserInfo } = useUserInfoContext();
 
-    console.log(JSON.stringify(loggedUser))
+    // console.log(JSON.stringify(loggedUser))
 
 
     // Retrieve loggedUser from localStorage
@@ -97,6 +97,7 @@ const BankInfo = ({ onSubmit }) => {
                     bank_statement_image_name: values.bankStatement?.name,
                     bank_statement_image_extn: values.bankStatement?.name?.split('.').pop(),
                     bank_statement_data: bankStatementBase64 ? bankStatementBase64.split(',')[1] : null,
+                    created_by : "user"
                 };
 
                 // console.log('Payload:', userRequest);
@@ -150,7 +151,7 @@ const BankInfo = ({ onSubmit }) => {
                             options={
                                 bankList.map((bankList) => ({
                                     label: bankList.bankName,
-                                    value: bankList.bankId,
+                                    value: bankList.bankName,
                                 }))
                             }
                             onChange={formik.handleChange}

@@ -65,6 +65,7 @@ export const UserInfoProvider = ({ children }) => {
     if (isLoading) {
         return <Loader msg="Please Wait..." />;
     }
+    
 
     return (
         <UserInfoContext.Provider value={{ userInfo, setUserInfo, isLoading, fetchData }}>

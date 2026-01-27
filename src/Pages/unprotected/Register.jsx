@@ -300,7 +300,7 @@ function Register() {
                             <Button
                                 btnName="Already user? Login"
                                 btnIcon="RiUser6Line"
-                                type="submit"
+                                type="button"
                                 style="py-1.5 text-xs text-primary hover:bg-primary hover:text-white border border-primary w-full"
                                 onClick={handleLogin}
                             />
