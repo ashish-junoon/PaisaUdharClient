@@ -45,7 +45,7 @@ function AvailLoan({ product, handleApply }) {
         .required("Enter OTP")
         .matches(/^[0-9]{4}$/, "Invalid OTP"),
     }),
-    onSubmit: async (values, {setLoading}) => {
+    onSubmit: async (values) => {
       setLoading(true)
       if (!navigator.geolocation) {
         toast.error("Geolocation is not supported by your browser.");
@@ -146,6 +146,7 @@ function AvailLoan({ product, handleApply }) {
         (error) => {
           console.error("Location Error:", error);
           alert("Please enable location permission.");
+          setLoading(false);
         }
       );
     },
@@ -402,10 +403,11 @@ function AvailLoan({ product, handleApply }) {
                 <ErrorMsg error={formik.errors.consentOTP} />
               )}
               <Button
-                btnName="Approve & Next"
-                style={"px-4 md:px-8 py-2 w-full bg-secondary text-black mt-5"}
+                btnName={loading ? "Submiting..." :"Approve & Next"}
+                style={loading ? "px-4 md:px-8 py-2 w-full bg-gray-300 text-black mt-5 cursor-not-allowed" : "px-4 md:px-8 py-2 w-full bg-secondary text-black mt-5"}
                 btnIcon={"MdOutlineCheckCircle"}
                 type="submit"
+                disabled={loading}
               />
             </form>
           </div>

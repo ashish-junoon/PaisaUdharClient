@@ -11,6 +11,7 @@ import PanCard from "../../components/utils/PanCard";
 
 function StartKYC() {
     const [validating, setValidating] = useState(false);
+    const [validating2, setValidating2] = useState(false);
     const [countdown, setCountdown] = useState(5);
     const [verified, setVerified] = useState(false);
 
@@ -39,7 +40,7 @@ function StartKYC() {
                     aadhaar_verified: true,
                 }));
             } else {
-                toast.error(data.message);
+                toast.error(data.message || "Adhar Varification Failed!");
             }
         } catch (error) {
             toast.error("Something went wrong. Please try again.");
@@ -51,7 +52,7 @@ function StartKYC() {
 
     // PAN Verification
     const handlePanVerify = async () => {
-        setValidating(true);
+        setValidating2(true);
         const userRequest = {
             user_id: userInfo?.user_id,
             lead_id: userInfo?.lead_id,
@@ -67,7 +68,7 @@ function StartKYC() {
                     ...prevUserInfo,
                     pan_verified: true,
                 }));
-                toast.success(data.message);
+                toast.success(data.message || "Adhar Varification Failed!");
             } else {
                 toast.error(data.message);
             }
@@ -75,7 +76,7 @@ function StartKYC() {
             toast.error("Something went wrong. Please try again.");
             console.error("Error verifying PAN:", error);
         } finally {
-            setValidating(false);
+            setValidating2(false);
         }
     };
 
@@ -181,7 +182,7 @@ function StartKYC() {
                             <div className="text-xs font-semibold">
                                 {!isPanVerified && (
                                     <Button
-                                        btnName={validating ? <BtnLoader /> : "Verify"}
+                                        btnName={validating2 ? <BtnLoader /> : "Verify"}
                                         type="button"
                                         style="w-full uppercase py-0.5 px-2 bg-secondary text-[10px] text-black"
                                         btnIcon={!validating ? "MdOutlineCheckCircle" : ""}
