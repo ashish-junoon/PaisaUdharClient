@@ -98,7 +98,7 @@ const BankInfo = ({ onSubmit }) => {
                     bank_statement_image_extn: values.bankStatement?.name?.split('.').pop(),
                     bank_statement_data: bankStatementBase64 ? bankStatementBase64.split(',')[1] : null,
                     created_by : "user",
-                    account_type: "1",
+                    account_type : "1",
                 };
 
                 // console.log('Payload:', userRequest);
