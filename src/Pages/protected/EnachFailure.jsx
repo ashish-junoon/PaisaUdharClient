@@ -5,12 +5,14 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { GetMandateDetailsById, GetPaymentDetaisByID } from "../../api/Api_call";
+import { GetAadhaarDetailsById, GetMandateDetailsById, GetPaymentDetaisByID } from "../../api/Api_call";
 import { toast } from "react-toastify";
+import { useUserInfoContext } from "../../components/context/UserInfoContext";
 
 const EnachFailure = () => {
   const navigate = useNavigate();
   const [timer, setTimer] = useState(10);
+  const { userInfo, setUserInfo } = useUserInfoContext();
   const [mandateDetails, setmandateDetails] = useState({});
   const [searchParams] = useSearchParams();
   const transactionId = searchParams.get("id");
@@ -39,6 +41,8 @@ const EnachFailure = () => {
     const redirect = setTimeout(() => {
       if(transactinType === "ENACH"){
         navigate("/process-loan", {replace: true});
+      }else if(transactinType === "aadhaar"){
+        navigate("/process-loan", {replace: true});
       }else{
         navigate("/", {replace: true});
       }
@@ -50,6 +54,7 @@ const EnachFailure = () => {
     };
   }, [navigate]);
 
+  // To get Mandate Details 
   const GetMandateDetails = async () => {
     const req = {
       TransactionId: transactionId,
@@ -68,7 +73,8 @@ const EnachFailure = () => {
       }
     }
   };
-
+  
+  // To get Payment Details
   const   GetPaymentDetaisBy = async () => {
     const req = {
       TransactionId: transactionId,
@@ -87,11 +93,39 @@ const EnachFailure = () => {
       }
     }
   };
+  
+  // To get Adhar Details
+  const GetAdharDetaisBy = async () => {
+    const req = {
+      unique_request_number: transactionId,
+      aadhar_number: userInfo?.kycInfo[0]?.aadhaar_number,
+      user_id: userInfo?.user_id,
+      lead_id: userInfo?.lead_id,
+      company_id: "JUNOON",
+      product_name: "PU"
+    };
+    if (transactionId) {
+      try {
+        const response = await GetAadhaarDetailsById(req);
+        if (response.status) {
+          setmandateDetails(response?.aadhaar_Data);
+          console.log(response?.aadhaar_Data);
+        } else {
+          toast.error(response.message || "Something went wrong!");
+        }
+        // console.log(mandateDetails);
+      } catch (error) {
+        console.error("Error in GetMandateDetailsById", error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (transactinType === "ENACH") {
       GetMandateDetails();
-    } else {
+    }else if(transactinType === "aadhaar"){
+      GetAdharDetaisBy()
+    } else if(transactinType === "pg") {
       GetPaymentDetaisBy()
     }
   }, []);
@@ -100,22 +134,22 @@ const EnachFailure = () => {
     <div className="flex items-center rounded-xl justify-center border-t-4 border-t-red-500">
       <div className="bg-white p-8 rounded-xl shadow-lg text-center w-full">
         <h1 className="text-2xl font-bold mb-4">
-          {transactinType === "ENACH" ? "eNACH Registration Failed ❌" : "Transaction Failed!"}
+          {transactinType === "ENACH" && "eNACH Registration Failed ❌"}
+          {transactinType === "aadhaar" && "Aadhaar Verification Failed ❌"}
+          {transactinType === "pg" && "Transaction Failed ❌"}
         </h1>
 
         <div className="text-sm mb-2">
           <p className="text-red-500 font-semibold">
-            {transactinType === "ENACH"?
-            `Failure Reason: ${mandateDetails?.response_meta?.description}`
-            :
-            `Failure Reason: ${(mandateDetails?.error_Message !== "NA" && mandateDetails?.error_Message) || mandateDetails?.status || "Something went wrong!"}`
-            }
+            {transactinType === "ENACH" && `Failure Reason: ${mandateDetails?.response_meta?.description}`}
+            {transactinType === "pg" && `Failure Reason: ${(mandateDetails?.error_Message !== "NA" && mandateDetails?.error_Message) || mandateDetails?.status || "Something went wrong!"}`}
+            {transactinType === "aadhaar" && `Reason: ${mandateDetails?.status}`}
           </p>
         </div>
 
         <div className="text-sm mb-2 m-auto max-md:w-full py-3">
           <p className="mb-1">
-            <span className="font-semibold">Transaction id:</span>{" "}
+            <span className="font-semibold">{transactinType === "aadhaar" ? "Reference Id:" : "Transaction id:"}</span>{" "}
             <span>{transactionId || "Null"}</span>
           </p>
           {/* <p className="flex flex-col text-left mb-1">
@@ -129,8 +163,11 @@ const EnachFailure = () => {
         </div>
 
         <p className="mb-4">
-          Unfortunately, {transactinType === "ENACH" ?  "your mandate registration" : "your Transaction"} could not be completed.
-          Please try again.
+          Unfortunately, 
+          {transactinType === "ENACH" &&  " your mandate registration " || 
+          transactinType === "aadhaar" && " your Aadhaar Verification " || 
+          transactinType === "pg" && " your Transaction "} 
+          could not be completed. Please try again.
         </p>
 
         {/* <p className="text-sm opacity-80">
@@ -140,9 +177,9 @@ const EnachFailure = () => {
           </Link>
         </p> */}
         <p className="text-sm opacity-80 flex items-center justify-center">
-          Redirecting in <b> {timer} </b> seconds...
+          Redirecting in <b className="mx-2"> {timer} </b> seconds...
           {/* <Link className="ml-2 font-bold text-primary" to="/process-loan">Go to Home</Link> */}
-          <p className="ml-2 font-bold text-primary cursor-pointer" onClick={()=> transactinType === "ENACH"  ? navigate("/process-loan", {replace: true}) : navigate("/", {replace: true}) } >Go to Home</p>
+          <p className="ml-2 font-bold text-primary cursor-pointer" onClick={()=> (transactinType === "ENACH" || transactinType === "aadhaar")  ? navigate("/process-loan", {replace: true}) : navigate("/", {replace: true}) } >Go to Home</p>
         </p>
       </div>
     </div>

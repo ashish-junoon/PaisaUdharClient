@@ -303,9 +303,21 @@ export const verifyPrefilleKYC = async (req) => {
 };
 
 //Verify PAN Card- eKYC
+// export const verifyPANCard = async (req) => {
+//     try {
+//         const response = await api.post("/eKyc/PanBasicKyc", req);
+//         return response.data;
+//     } catch (error) {
+//         console.error("Verify PAN Card:", error.response?.data || error.message);
+//         throw error;
+//     }
+// }
+
+
+//Verify PAN Card- eKYC EASEBUZZ
 export const verifyPANCard = async (req) => {
     try {
-        const response = await api.post("/eKyc/PanBasicKyc", req);
+        const response = await api.post("/EasebuzzIntegration/VerifyPAN", req);
         return response.data;
     } catch (error) {
         console.error("Verify PAN Card:", error.response?.data || error.message);
@@ -314,9 +326,21 @@ export const verifyPANCard = async (req) => {
 }
 
 //Verify Aadhar Card- eKYC
+// export const verifyAadharCard = async (req) => {
+//     try {
+//         const response = await api.post("/eKyc/AadhaarKyc", req);
+//         return response.data;
+//     } catch (error) {
+//         console.error("Verify Aadhar Card:", error.response?.data || error.message);
+//         throw error;
+//     }
+// }
+
+
+//Verify Aadhar Card- eKYC Easebuzz
 export const verifyAadharCard = async (req) => {
     try {
-        const response = await api.post("/eKyc/AadhaarKyc", req);
+        const response = await api.post("/EasebuzzIntegration/VerifyAadhaar", req);
         return response.data;
     } catch (error) {
         console.error("Verify Aadhar Card:", error.response?.data || error.message);
@@ -385,6 +409,17 @@ export const GetMandateDetailsById = async (req) => {
 export const GetPaymentDetaisByID = async (req) => {
     try {
         const response = await api.post("/EasebuzzIntegration/GetPaymentDetaisByID ", req);
+        return response.data;
+    } catch (error) {
+        console.error("Register eMandate:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+// To Get Aadhaar Details By Id
+export const GetAadhaarDetailsById = async (req) => {
+    try {
+        const response = await api.post("/EasebuzzIntegration/GetAadhaarDetailsById ", req);
         return response.data;
     } catch (error) {
         console.error("Register eMandate:", error.response?.data || error.message);

@@ -36,15 +36,7 @@ function RegisterNach() {
     adharFlag: {
       value: "aadhaar",
       label: "Aadhaar",
-    },
-    panFlag: {
-      value: "pan",
-      label: "PAN",
-    },
-    custidFlag: {
-      value: "customer_id",
-      label: "Customer ID",
-    },
+    }
   };
 
   // const updateData = () => {
@@ -63,8 +55,8 @@ function RegisterNach() {
     const req = {
       success_url: `${location.origin}/success`,
       failure_url: `${location.origin}/failure`,
-      amount: (userInfo?.getAssignProduct[0]?.loan_amount * 4) || 10,
-    //   amount: 100000,  // Asking permision of 1lakh for mandate
+      // amount: (userInfo?.getAssignProduct[0]?.loan_amount * 4) || 10,
+      amount: 10,  // Asking permision of 1lakh for mandate
       // amount: userInfo?.selectedproduct[0]?.loan_amount,
       email: userInfo?.personalInfo[0]?.email_id,
       phone: userInfo?.mobile_number,
@@ -75,6 +67,7 @@ function RegisterNach() {
       ifsc: userInfo?.bankInfo[0]?.ifsc_code,
       upi_handle: "",
       auth_mode: authMode,
+      // auth_mode: 'physical',
       account_type: "savings",
       bank_code: userInfo?.bankInfo[0]?.ifsc_code?.slice(0, 4),
       request_type: "ENACH",
