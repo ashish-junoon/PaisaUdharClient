@@ -75,6 +75,7 @@ function RegisterNach() {
       ifsc: userInfo?.bankInfo[0]?.ifsc_code,
       upi_handle: "",
       auth_mode: authMode,
+      // auth_mode: 'physical',
       account_type: "savings",
       bank_code: userInfo?.bankInfo[0]?.ifsc_code?.slice(0, 4),
       request_type: "ENACH",

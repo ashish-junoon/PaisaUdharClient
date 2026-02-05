@@ -3,7 +3,7 @@ import Icon from "./Icon"
 function MobileMenu() {
     const navigate = useNavigate()
     return (
-        <div className="md:hidden fixed bottom-5 w-full px-5">
+        <div className="lg:hidden fixed bottom-5 w-full px-5">
             <div className="flex bg-gray-50 shadow-lg rounded-lg">
 
                 <button className="w-full flex flex-col justify-center items-center hover:bg-blue-100 py-2"

@@ -278,7 +278,7 @@ function Dashboard() {
                         </span>
                     )}
 
-                    {userInfo?.is_e_kyc_done && userInfo?.lead_status === 5 && (
+                    {userInfo?.is_e_kyc_done && (userInfo?.lead_status === 5 || userInfo?.lead_status === 24 || userInfo?.lead_status === 25 || userInfo?.lead_status === 26) && (
                         <span className={`text-xs font-bold px-4 py-1 mx-2 bg-green-100 text-success rounded shadow-md`}>
                             Approved
                         </span>
@@ -459,6 +459,16 @@ function Dashboard() {
                             message: "Congratulations! Your application has been approved for the credit line. It will be deposited into your account soon.",
                             button: false,
                         },
+                        24: {
+                            heading: "Credit Line Approved",
+                            message: "Congratulations! Your application has been approved for the credit line. It will be deposited into your account soon.",
+                            button: false,
+                        },
+                        25: {
+                            heading: "Request Proceed for Disbursement",
+                            message: "Congratulations! Your application has been Proceed. It will be deposited into your account soon.",
+                            button: false,
+                        },
                         7: {
                             heading: "Rejected",
                             message: "We regret to inform you that your application has been rejected due to our internal policies.",
@@ -474,6 +484,11 @@ function Dashboard() {
                             message: "We regret to inform you that your disbursal has been held due to our internal policies.",
                             button: false,
                         },
+                        26: {
+                            heading: "Amount Disbursement Failed",
+                            message: "Unfortunately, your amount disbursement process was initiated but failed. We will reinitiate it within 24 to 36 hours.",
+                            button: false,
+                        },
                     };
 
                     const currentStatus = statusMessages[userInfo?.lead_status];
@@ -484,8 +499,7 @@ function Dashboard() {
                             {currentStatus && (
                                 <>
                                     <div
-                                        className={`py-1 text-sm shadow-sm ${userInfo?.is_e_kyc_done ? "bg-green-100 text-green-600" : "bg-lime-100 text-black"
-                                            }`}
+                                        className={`py-1 text-sm shadow-sm ${userInfo?.lead_status === 26 ? "bg-red-100 text-red-500" : userInfo?.is_e_kyc_done ? "bg-green-100 text-green-600" : "bg-lime-100 text-black"}`}
                                     >
                                         <h1 className="text-center font-semibold text-md">{currentStatus.heading}</h1>
                                     </div>
