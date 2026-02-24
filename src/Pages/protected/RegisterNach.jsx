@@ -36,7 +36,15 @@ function RegisterNach() {
     adharFlag: {
       value: "aadhaar",
       label: "Aadhaar",
-    }
+    },
+    // panFlag: {
+    //   value: "pan",
+    //   label: "PAN",
+    // },
+    // custidFlag: {
+    //   value: "customer_id",
+    //   label: "Customer ID",
+    // },
   };
 
   // const updateData = () => {
@@ -48,15 +56,15 @@ function RegisterNach() {
   //     }, 5000);
   // };
 
-//   console.log(userInfo?.selectedproduct);
+  //   console.log(userInfo?.selectedproduct);
 
   const registerNACHEaseBuzz = async () => {
     setLoading(true);
     const req = {
       success_url: `${location.origin}/success`,
       failure_url: `${location.origin}/failure`,
-      // amount: (userInfo?.getAssignProduct[0]?.loan_amount * 4) || 10,
-      amount: 10,  // Asking permision of 1lakh for mandate
+      amount: (userInfo?.getAssignProduct[0]?.loan_amount * 4) || 10,
+      //   amount: 100000,  // Asking permision of 1lakh for mandate
       // amount: userInfo?.selectedproduct[0]?.loan_amount,
       email: userInfo?.personalInfo[0]?.email_id,
       phone: userInfo?.mobile_number,
@@ -92,7 +100,7 @@ function RegisterNach() {
     setLoading(false);
   };
 
-    useEffect(() => {
+  useEffect(() => {
     if (localStorage.getItem("reloaded")) {
       setTimeout(() => {
         window.location.reload();
@@ -258,15 +266,15 @@ function RegisterNach() {
   };
 
   useEffect(() => {
-    getEnatchMethods(userInfo?.bankInfo[0]?.ifsc_code?.slice(0,4));
+    getEnatchMethods(userInfo?.bankInfo[0]?.ifsc_code?.slice(0, 4));
 
-  //   if (!sessionStorage.getItem("reloaded")) {
-  //   sessionStorage.setItem("reloaded", "true");
+    //   if (!sessionStorage.getItem("reloaded")) {
+    //   sessionStorage.setItem("reloaded", "true");
 
-  //   setTimeout(() => {
-  //     window.location.reload();
-  //   }, 100);
-  // }
+    //   setTimeout(() => {
+    //     window.location.reload();
+    //   }, 100);
+    // }
   }, []);
 
   if (loading) return <Loader msg="Please Wait..." />;
@@ -308,12 +316,12 @@ function RegisterNach() {
 
               <Button
                 btnName={"Register eMandate"}
-                disabled={loading}
+                disabled={loading || !authMode.length}
                 style={`${
                   !authMode.length
                     ? "bg-gray-200"
                     : "bg-primary hover:bg-secondary hover:text-black"
-                } text-white px-4 py-2`}
+                  } text-white px-4 py-2`}
                 // onClick={registerNACH}
                 onClick={() => {
                   authMode
