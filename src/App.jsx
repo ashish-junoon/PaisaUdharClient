@@ -27,7 +27,7 @@ import CallbackUrl from "./Pages/unprotected/CallbackUrl";
 import TempKYC from "./Pages/unprotected/TempKYC";
 import EnachSuccess from "./Pages/protected/EnachSuccess";
 import EnachFailure from "./Pages/protected/EnachFailure";
-
+import Pwa from "./components/utils/Pwa"
 
 function App() {
   const { loggedUser } = useAuth();

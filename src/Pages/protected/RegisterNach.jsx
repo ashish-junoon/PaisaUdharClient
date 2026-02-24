@@ -308,7 +308,7 @@ function RegisterNach() {
 
               <Button
                 btnName={"Register eMandate"}
-                // disabled={!authMode.length}
+                disabled={loading}
                 style={`${
                   !authMode.length
                     ? "bg-gray-200"

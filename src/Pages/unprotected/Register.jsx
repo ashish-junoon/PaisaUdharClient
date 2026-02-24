@@ -11,6 +11,7 @@ import TextInput from '../../components/fields/TextInput';
 import Icon from '../../components/utils/Icon';
 import { RegisterUser, resendOTP, VerifyMobileOTP, CreatePassword } from '../../api/Api_call';
 import BtnLoader from '../../components/utils/BtnLoader';
+import VideoRecorder from '../../components/utils/VideoRecorder';
 
 function Register() {
 

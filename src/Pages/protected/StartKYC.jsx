@@ -28,7 +28,6 @@ function StartKYC() {
       user_id: userInfo?.user_id,
       lead_id: userInfo?.lead_id,
       id_number: userInfo?.kycInfo[0]?.aadhaar_number,
-      // id_number: "555506094444",
       company_id: import.meta.env.VITE_COMPANY_ID,
       product_name: import.meta.env.VITE_PRODUCT_NAME,
       surl: `${location.origin}/success`,

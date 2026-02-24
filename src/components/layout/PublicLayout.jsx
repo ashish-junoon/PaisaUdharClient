@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 import Icon from "../utils/Icon"
 import { heroPoints } from "../content/Content"
 import Images from "../content/Images"
-
+import Pwa from "../utils/Pwa"
 function PublicLayout() {
 
 
@@ -68,6 +68,8 @@ function PublicLayout() {
                     <Outlet />
                 </div>
             </div>
+
+            <Pwa />
         </div>
     );
 };

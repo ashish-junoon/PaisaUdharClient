@@ -4,6 +4,7 @@ import { heroPoints } from "../content/Content";
 import Images from "../content/Images";
 import { useUserInfoContext } from "../context/UserInfoContext";
 import MobileMenu from "../utils/MobileMenu";
+import Pwa from "../utils/Pwa"
 
 function ProtectedLayout() {
     const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
@@ -139,6 +140,8 @@ function ProtectedLayout() {
                     </div>
                 )}
             </div>
+
+            <Pwa />
 
         </div>
     );

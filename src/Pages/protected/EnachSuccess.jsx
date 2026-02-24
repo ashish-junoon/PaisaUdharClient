@@ -13,6 +13,9 @@ const EnachSuccess = () => {
   const transactinType = searchParams.get("type");
   const { userInfo } = useUserInfoContext();
 
+  const adharuser = userInfo?.kycInfo[0]?.aadhaar_number?.slice(8,12);
+  const adharres = mandateDetails?.aadhaar_uid?.slice(8,12);
+
   const formattedDateTime = mandateDetails?.created_at
   ? new Date(mandateDetails.created_at).toLocaleString("en-IN", {
       day: "2-digit",
@@ -131,7 +134,7 @@ const EnachSuccess = () => {
       <div className="bg-white py-12 px-4 rounded-xl shadow-lg text-center w-full">
         <h1 className="text-xl font-bold mb-4">
           {transactinType === "ENACH" && "eNACH Registration Successful 🎉" } 
-          {transactinType === "aadhaar" && "Aadhaar Verification Successful 🎉"}
+          {transactinType === "aadhaar" && (adharres != adharuser ? <p className="text-red-500">Aadhaar Verification Mismathched!</p> : "Aadhaar Verification Successful 🎉")}
           {transactinType === "pg" && "Transaction Successful 🎉"}
         </h1>
 
@@ -146,7 +149,7 @@ const EnachSuccess = () => {
           <p className="mb-2 text-yellow-600"><span>Note: </span>Please wait for 24 to 48 Hours to Update your Payment Status.</p>
         </>
         }
-        {transactinType === "aadhaar" && <p className="mb-2">Your Aadhaar Verification successfully Completed.</p>}
+        {transactinType === "aadhaar" && <p className="mb-2">Your Aadhaar Verification is {adharres != adharuser ? "Pending." : "successfully Completed."}</p>}
         {/* {true && (
           <p className="mb-4">
             <span className="font-semibold">Transaction ID:</span>{" "}

@@ -53,7 +53,7 @@ const DateInput = ({
                 {label}
                 {required ? <span className="text-danger text-sm">*</span> : ""}
             </label>
-            <div className="relative w-full">
+            <div className="relative w-full overflow-hidden">
                 <div
                     className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-10"
                     aria-hidden="true"
@@ -66,20 +66,23 @@ const DateInput = ({
                     name={name}
                     id={id}
                     placeholder={placeholder}
-                    className="bg-white border border-black text-black text-xs rounded focus:ring-primary focus:border-primary block w-full pl-10 p-1.5 focus:shadow-sm focus:outline-light"
+                    onClick={handleClick}
+                    className="w-full box-border min-w-0 appearance-none bg-white border border-black text-sm rounded pl-10 pr-8 h-9 leading-none focus:ring-primary focus:border-primary focus:shadow-sm focus:outline-none focus:bg-white active:bg-white"
+                    // className="bg-white border border-black text-black text-xs rounded focus:ring-primary focus:border-primary block w-full pl-10 p-1.5 focus:shadow-sm focus:outline-light"
                     value={selectedDate}
                     onChange={handleChange}
                     onBlur={onBlur}
                     disabled={disabled}
                     min={min}
-                    {...(maxDate ? { max: maxDate } : {})}
+                    {...(maxDate ? { max: maxDate } : {max})}
                     style={{
                         colorScheme: "dark",
                     }}
                 />
                 <div
-                    className="absolute inset-0 cursor-pointer"
-                    onClick={handleClick}
+                    className="absolute inset-0 pointer-events-none"
+                    // className="absolute inset-y-0 left-0 right-0 cursor-pointer"
+                    // onClick={handleClick}
                     aria-label="Open date picker"
                 ></div>
             </div>
