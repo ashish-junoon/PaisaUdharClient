@@ -3,12 +3,14 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { GetAadhaarDetailsById, GetMandateDetailsById, GetPaymentDetaisByID } from "../../api/Api_call";
 import { toast } from "react-toastify";
 import { useUserInfoContext } from "../../components/context/UserInfoContext";
+import AdharCard from "../../components/utils/AdharCard";
 
 const EnachSuccess = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [mandateDetails, setmandateDetails] = useState({});
+  const [mandateDetails, setmandateDetails] = useState(null);
   const [timer, setTimer] = useState(10);
+  const [address, setaddress] = useState("");
   const transactionId = searchParams.get("id");
   const transactinType = searchParams.get("type");
   const { userInfo } = useUserInfoContext();
@@ -87,6 +89,16 @@ const EnachSuccess = () => {
         const response = await GetAadhaarDetailsById(req);
         if (response.status) {
           setmandateDetails(response?.aadhaar_Data);
+          
+          const add = response?.aadhaar_Data?.care_of 
+          + ", " + response?.aadhaar_Data?.addresses[0]?.complete_address?.house 
+          + ", " + response?.aadhaar_Data?.addresses[0]?.complete_address?.vtc 
+          + ", " + response?.aadhaar_Data?.addresses[0]?.complete_address?.state 
+          + ", " + response?.aadhaar_Data?.addresses[0]?.complete_address?.pc
+          
+          setaddress(add)
+          const data = {...response?.aadhaar_Data, add}
+          localStorage.setItem("aadhaarData", JSON.stringify(data))
         } else {
           toast.error(response.message || "Something went wrong!");
         }
@@ -138,7 +150,7 @@ const EnachSuccess = () => {
           {transactinType === "pg" && "Transaction Successful 🎉"}
         </h1>
 
-        <div className="text-sm mb-2 m-auto max-md:w-full py-3">
+        <div className="text-sm mb-2 m-auto max-md:w-full py-2">
             <p className="mb-1"><span className="font-semibold">{transactinType === "aadhaar" ? "Reference Id:" : "Transaction Id:"}</span> <span>{transactionId || "Null"}</span></p>
             {/* <p className="flex flex-col text-left mb-1"><span className="font-semibold">Bank Reference Number:</span><span>{mandateDetails?.bank_reference_number || "Null"}</span></p>
             <p className="flex flex-col text-left mb-1"><span className="font-semibold">Created At: </span><span>{formattedDateTime || "Null"}</span></p> */}
@@ -149,28 +161,24 @@ const EnachSuccess = () => {
           <p className="mb-2 text-yellow-600"><span>Note: </span>Please wait for 24 to 48 Hours to Update your Payment Status.</p>
         </>
         }
-        {transactinType === "aadhaar" && <p className="mb-2">Your Aadhaar Verification is {adharres != adharuser ? "Pending." : "successfully Completed."}</p>}
-        {/* {true && (
-          <p className="mb-4">
-            <span className="font-semibold">Transaction ID:</span>{" "}
-            {mandateDetails?.transaction_id}
-          </p>
-        )} */}
 
+        {/* {(transactinType === "aadhaar" && mandateDetails) && <div className="flex justify-center">
+          <AdharCard
+            name={mandateDetails?.name || "N/A"}
+            dob={mandateDetails?.date_of_birth_masked || "N/A"}
+            gender={mandateDetails?.gender || "N/A"}
+            aadhaarNumber={mandateDetails?.aadhaar_uid || "N/A"}
+            image={`data:image/jpeg;base64,${mandateDetails?.image}`}
+          />
+        </div>} */}
+
+        {/* {address && <p className="text-sm my-5 text-primary font-semibold">{address}</p>} */}
+        {transactinType === "aadhaar" && <p className="my-2">Your Aadhaar Verification is {adharres != adharuser ? "Pending." : "successfully Completed."}</p>}
         <p className="text-sm opacity-80 flex items-center justify-center">
           Redirecting in <b className="mx-2"> {timer} </b> seconds...
           {/* <Link className="ml-2 font-bold text-primary" to="/process-loan">Go to Home</Link> */}
           <p className="ml-2 font-bold text-primary cursor-pointer" onClick={()=> (transactinType === "ENACH" || transactinType === "aadhaar")  ? navigate("/process-loan", {replace: true}) : navigate("/", {replace: true}) } >Go to Home</p>
         </p>
-
-         {/* <div className="text-sm my-2">
-            <p className="text-yellow-500 font-semibold">
-            {transactinType === "ENACH" ? `Message: ${mandateDetails?.response_meta?.description}`
-            :
-            `Message: ${(mandateDetails?.error_Message !== "NA" && mandateDetails?.error_Message) || mandateDetails?.status || "Transaction Successfull."}`
-          }
-          </p>
-        </div> */}
       </div>
     </div>
   );

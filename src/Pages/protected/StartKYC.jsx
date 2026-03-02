@@ -14,6 +14,7 @@ function StartKYC() {
   const [validating2, setValidating2] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [verified, setVerified] = useState(false);
+  const [verifiedAadhaarData, setverifiedAadhaarData] = useState(null);
 
   const { userInfo, setUserInfo } = useUserInfoContext();
 
@@ -146,6 +147,13 @@ function StartKYC() {
     };
   }, [isPanVerified, isAdharVerified]);
 
+  useEffect(()=> {
+    const addaharData = JSON.parse(localStorage.getItem("aadhaarData"))
+    if(addaharData?.aadhaar_uid?.slice(8,12) === userInfo?.kycInfo[0]?.aadhaar_number?.slice(8,12)){
+      setverifiedAadhaarData(addaharData)
+    }
+  }, [])
+
   return (
     <>
       {!verified && (
@@ -176,12 +184,14 @@ function StartKYC() {
             </div>
             <div className="flex justify-center">
               <AdharCard
-                name={userInfo?.personalInfo[0]?.full_name}
+                name={verifiedAadhaarData ? verifiedAadhaarData?.name : userInfo?.personalInfo[0]?.full_name}
                 dob={userInfo?.personalInfo[0]?.dob}
                 gender={userInfo?.personalInfo[0]?.gender}
                 aadhaarNumber={userInfo?.kycInfo[0]?.aadhaar_number}
+                image={verifiedAadhaarData && `data:image/jpeg;base64,${verifiedAadhaarData?.image}`}
               />
             </div>
+              {verifiedAadhaarData && <p className="text-[10px] my-2 text-center text-primary font-semibold">{verifiedAadhaarData?.add}</p>}
           </div>
 
           <div>

@@ -6,6 +6,7 @@ import RegisterNach from "./RegisterNach";
 import StartKYC from "./StartKYC";
 import { useUserInfoContext } from "../../components/context/UserInfoContext";
 import { useAuth } from "../../components/context/AuthContext";
+import VideoRecorder from "../../components/utils/VideoRecorder";
 
 function ProcessApp() {
   const [kycDone, setKycDone] = useState(false);
@@ -16,6 +17,7 @@ function ProcessApp() {
   const isConsent = userInfo?.selectedproduct[0]?.otp_consent_verified;
   const isLoanConsent = userInfo?.is_loan_consent;
   const isKycDone = userInfo?.is_e_kyc_done;
+  const isVideoKycDone = userInfo?.video_kyc_verified;
 
   // alert(userInfo?.is_loan_consent)
   // alert(userInfo?.selectedproduct[0]?.otp_consent_verified)
@@ -23,6 +25,7 @@ function ProcessApp() {
 
   useEffect(() => {
     if (
+      userInfo?.video_kyc_verified &&
       userInfo?.is_loan_consent === true ||
       userInfo?.getAssignProduct.length === 0
     ) {
@@ -70,18 +73,25 @@ function ProcessApp() {
           (item) => item.otp_consent_verified === false,
         ) && <OfferLoan />}
 
+      {/* Video Kyc  */}
+      {isConsent === true && userInfo?.video_kyc_verified === false && <VideoRecorder />}
+
       {/* Start KYC */}
-      {isConsent === true && userInfo?.is_e_kyc_done === false && <StartKYC />}
+      {isVideoKycDone === true && userInfo?.is_e_kyc_done === false && isConsent === true && <StartKYC />}
+      {/* Commented By RK  */}
+      {/* {isConsent === true && userInfo?.is_e_kyc_done === false && <StartKYC />} */}
 
       {/* Register eNACH */}
-      {isKycDone === true && userInfo?.is_e_nach_activate === false && (
+      {isKycDone === true && userInfo?.is_e_nach_activate === false && isVideoKycDone && ( 
         <RegisterNach />
       )}
 
       {/* Sanction Agreement */}
-      {userInfo?.is_e_nach_activate === true && isLoanConsent === false && (
+      {userInfo?.is_e_nach_activate === true && isLoanConsent === false && isVideoKycDone && (
         <AcceptTerms />
       )}
+
+      {/* Added isVideoKycDone to  RegisterNach & AcceptTerms Components*/}
     </div>
   );
 }

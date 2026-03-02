@@ -63,8 +63,7 @@ function RegisterNach() {
     const req = {
       success_url: `${location.origin}/success`,
       failure_url: `${location.origin}/failure`,
-      amount: (userInfo?.getAssignProduct[0]?.loan_amount * 4) || 10,
-      //   amount: 100000,  // Asking permision of 1lakh for mandate
+      amount: userInfo?.getAssignProduct[0]?.loan_amount * 4,
       // amount: userInfo?.selectedproduct[0]?.loan_amount,
       email: userInfo?.personalInfo[0]?.email_id,
       phone: userInfo?.mobile_number,
@@ -87,7 +86,7 @@ function RegisterNach() {
     };
     try {
       const response = await registerEMandateEaseBuze(req);
-      console.log("API Response:", response);
+      // console.log("API Response:", response);
       localStorage.setItem("reloaded", "true");
 
       const win = window.open("", "_self"); // or "_blank"
@@ -107,6 +106,7 @@ function RegisterNach() {
       }, 100);
     }
     localStorage.removeItem("reloaded");
+    localStorage.removeItem("aadhaarData");
   }, []);
 
   const registerNACH = async () => {

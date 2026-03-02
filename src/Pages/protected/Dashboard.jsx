@@ -480,7 +480,7 @@ function Dashboard() {
       )}
 
       {/* Video Kyc Upload  */}
-      {!userInfo?.video_kyc_verified && !isKyc && (
+      {/* {!userInfo?.video_kyc_verified && !isKyc && (
         <div className="grid grid-cols-3 shadow mb-5 py-1.5 px-5 border border-red-200">
           <div className="col-span-2 flex justify-start items-center font-semibold italic text-xs text-black">
             Capture or upload Video Kyc
@@ -489,7 +489,6 @@ function Dashboard() {
             <div className="flex justify-end">
               <Button
                 btnName={"Record Video"}
-                // type={loading ? "button" : "submit"}
                 style={`py-1 ${loading ? "bg-gray-200" : "bg-amber-100"} text-amber-600 w-3/4 text-xs font-bold`}
                 onClick={() => setIsApproved(true)}
                 disabled={loading}
@@ -497,9 +496,9 @@ function Dashboard() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
-      <Modal
+      {/* <Modal
         isOpen={isApproved}
         // onClose={() => setIsKyc(false)}
         onClose={() => setIsApproved(false)}
@@ -533,12 +532,11 @@ function Dashboard() {
             />
           </div>
         </div>
-      </Modal>
+      </Modal> */}
 
-      <Modal
+      {/* <Modal
         preventClose
         isOpen={isKyc}
-        // onClose={() => setIsKyc(false)}
         onClose={() => {
           (setIsKyc(false),
             setUserInfo(() => ({
@@ -551,7 +549,7 @@ function Dashboard() {
         <div className="">
           <VideoRecorder setIsKyc={setIsKyc} />
         </div>
-      </Modal>
+      </Modal> */}
 
       {/* Lead Status Messages */}
       {userInfo?.lead_status &&
@@ -581,7 +579,7 @@ function Dashboard() {
                 userInfo?.is_loan_consent === true
                   ? "Congratulations! Your application has been approved for the credit line. It will be deposited into your account soon."
                   : "Your application has been approved for the credit line. Please continue to complete your KYC & finish application.",
-              button: userInfo?.is_loan_consent === false ? true : false,
+              button: (userInfo?.is_loan_consent === false || userInfo?.video_kyc_verified === false) ? true : false,
             },
             5: {
               heading: "Credit Line Approved",

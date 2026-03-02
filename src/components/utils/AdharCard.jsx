@@ -6,6 +6,7 @@ const AdharCard = ({
     dob,
     gender,
     aadhaarNumber,
+    image
 
 }) => {
     return (
@@ -29,13 +30,13 @@ const AdharCard = ({
             <div className="flex justify-between items-start gap-4 mt-2">
                 <div className="flex gap-3 items-start">
                     {/* <img src={imageUrl} alt="Profile" className="w-20 h-24 object-cover border border-gray-400 rounded-sm" /> */}
-                    <div className="text-sm space-y-1 text-gray-800">
+                    <div className="text-sm space-y-1 text-gray-800 text-start">
                         <p><strong>{name}</strong></p>
                         <p><strong>DOB:</strong> {dob}</p>
                         <p><strong>Gender:</strong> {gender}</p>
                     </div>
                 </div>
-                <img src={Images.QR} alt="QR Code" className="w-14 h-14 md:w-16 md:h-16 object-cover" />
+                <img src={image || Images.QR} alt="QR Code" className="w-14 h-14 md:w-16 md:h-16 object-cover" />
             </div>
 
             {/* Aadhaar Number */}

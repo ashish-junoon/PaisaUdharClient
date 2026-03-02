@@ -62,7 +62,7 @@ const manifestForPlugIn = {
   manifest: {
     id: "/",
     name: "Paisa Udhar",
-    short_name: "PU",
+    short_name: "Paisa Udhar",
     description: "Paisa Udhar",
     start_url: "/",
     scope: "/",
