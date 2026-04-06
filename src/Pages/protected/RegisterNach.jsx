@@ -12,6 +12,7 @@ import { useUserInfoContext } from "../../components/context/UserInfoContext";
 import Card from "../../components/utils/Card";
 import { toast } from "react-toastify";
 import SelectInput from "../../components/fields/SelectInput";
+import { useGetData } from "../../components/context/GetDataContext";
 
 function RegisterNach() {
   const [loading, setLoading] = useState(false);
@@ -23,17 +24,18 @@ function RegisterNach() {
   const [token, setToken] = useState("");
 
   const { userInfo, setUserInfo } = useUserInfoContext();
+  const { bankList } = useGetData();
 
   const FLAG_MAP = {
-    netbankFlag: {
+    netbank_flag: {
       value: "netbanking",
       label: "Netbanking",
     },
-    cardFlag: {
+    card_flag: {
       value: "debit_card",
       label: "Debit Card",
     },
-    adharFlag: {
+    adhar_flag: {
       value: "aadhaar",
       label: "Aadhaar",
     },
@@ -250,8 +252,14 @@ function RegisterNach() {
   //to get e natch methods for dropdown
   const getEnatchMethods = async (req) => {
     try {
+      // console.log(req);
+      
+      // console.log(bankList);
+      // const response = bankList?.find((bank)=> bank?.bankId === req)
+      // console.log(response);
+      
       const response = await getbankCodeListByCode(req);
-      const enabledMethods = Object.entries(response?.data || {})
+      const enabledMethods = Object.entries(response.data || {})
         .filter(([key, value]) => value === true && FLAG_MAP[key])
         .map(([key]) => FLAG_MAP[key]);
 

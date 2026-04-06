@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { fetchSectorOptions, fetchSalaryDate, fetchEmploySince, getBankName, getEasebuzzBankName } from "../../api/Api_call";
-
+import {bankListData} from "../content/Content"
 const GetDataContext = createContext();
 
 export const GetDataProvider = ({ children }) => {

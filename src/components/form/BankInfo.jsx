@@ -24,7 +24,8 @@ const BankInfo = ({ onSubmit }) => {
     const { userInfo, setUserInfo } = useUserInfoContext();
 
     // console.log(JSON.stringify(loggedUser))
-
+    // console.log(bankList);
+    
 
     // Retrieve loggedUser from localStorage
     useEffect(() => {
@@ -151,8 +152,8 @@ const BankInfo = ({ onSubmit }) => {
                             id="bankName"
                             options={
                                 bankList.map((bankList) => ({
-                                    label: bankList.bankName,
-                                    value: bankList.bankName,
+                                    label: bankList.bank_name,
+                                    value: bankList.bank_name,
                                 }))
                             }
                             onChange={formik.handleChange}
