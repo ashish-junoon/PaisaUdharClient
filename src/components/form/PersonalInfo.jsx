@@ -63,11 +63,11 @@ const PersonalInfo = ({ onSubmit }) => {
       setLoading(true);
       const userRequest = {
         user_id: loggedUser?.user_id,
-        full_name: values.fullName,
+        full_name: values.fullName?.trim(),
         gender: values.gender,
         marital_status: values.maritalStatus,
         birth_date: values.birthDate,
-        email: values.email,
+        email: values.email?.trim(),
       };
 
       try {
