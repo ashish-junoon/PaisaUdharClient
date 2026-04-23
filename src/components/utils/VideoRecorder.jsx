@@ -318,7 +318,7 @@ const VideoRecorder = ({ }) => {
             <video
               src={videoURL}
               controls
-              className="w-full m-auto rounded border"
+              className="max-md:w-full w-[80%] lg:h-[70vh] m-auto rounded border"
             />
 
             {videoURL && (

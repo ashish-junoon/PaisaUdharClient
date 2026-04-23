@@ -139,7 +139,7 @@ function Login() {
                                 name="mobileNumber"
                                 type="text"
                                 id="mobileNumber"
-                                maxLength={11}
+                                maxLength={10}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.mobileNumber}
