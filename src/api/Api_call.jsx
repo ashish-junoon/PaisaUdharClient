@@ -5,6 +5,7 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
     headers: {
         "Content-Type": "application/json",
+        "Cache-Control": "no-cache"
     },
     // maxRedirects: 0, // Prevent Axios from following redirects to HTTPS
 });
